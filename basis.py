@@ -307,7 +307,8 @@ class BasisNextExpect(BaseEstimator):
             The conditional expectation value(s) for the given current state.
         """
         # Extend the next state data by appending the first part of the current state `x` to each row of the next state
-        add_x = np.full(self.X_next.shape, x[:-1]) # Create an array filled with the first elements of `x`
+        #add_x = np.full(self.X_next.shape, x[:-1]) # Create an array filled with the first elements of `x`
+        add_x = np.tile(x[:-1], (self.X_next.shape[0], 1))
         state_next_ = np.hstack((self.X_next, add_x)) # Concatenate the current and next state data
         
         # Compute the basis functions for the extended next state data
@@ -412,7 +413,8 @@ class BasisNextExpect2(BaseEstimator):
         K= np.exp(-0.5*u**2)/np.sqrt(2 * np.pi)
         
         # Create an array filled with the first element of x and append it to the next state data
-        add_x = np.full(self.X_next.shape, x[0])
+        #add_x = np.full(self.X_next.shape, x[0])
+        add_x = np.tile(x[:-1], (self.X_next.shape[0], 1))
         state_next_ = np.hstack((self.X_next, add_x))
         # Compute the basis functions for the extended next state
         basis_next_df, _ = basis.compute_basis_functions(state_next_, basis.orders)
@@ -539,7 +541,8 @@ class BasisNextSAExpect(BaseEstimator):
         """
         
         # Create an array filled with the first elements of `x` and append it to the next state data
-        add_x = np.full(self.X_next.shape, x[:-1]) # Use the state minus the last element to extend next state
+        #add_x = np.full(self.X_next.shape, x[:-1]) # Use the state minus the last element to extend next state
+        add_x = np.tile(x[:-1], (self.X_next.shape[0], 1))
         state_next_ = np.hstack((self.X_next, add_x)) # Concatenate current and next state data
         
         # Compute the basis functions for the extended next state data
